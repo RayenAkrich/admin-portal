@@ -1,0 +1,64 @@
+<svg width="200" height="240" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo FST basé sur l'image fournie -->
+  <defs>
+    <style>
+      .logo-main { fill: #6511EF; }
+      .logo-accent { fill: white; }
+      .logo-text { fill: #6511EF; font-family: Arial, sans-serif; font-weight: 900; }
+    </style>
+  </defs>
+  
+  <g class="logo-main">
+    <!-- Forme principale - dragon/créature stylisée -->
+    <!-- Corps central en forme de cœur/bouclier -->
+    <path d="M100 20 
+             C80 10, 50 15, 30 35
+             C10 55, 15 85, 25 105
+             C35 125, 50 140, 65 150
+             L85 170
+             L100 185
+             L115 170
+             L135 150
+             C150 140, 165 125, 175 105
+             C185 85, 190 55, 170 35
+             C150 15, 120 10, 100 20 Z"/>
+    
+    <!-- Cornes/ailes supérieures -->
+    <path d="M25 25 C35 15, 50 20, 60 35 C55 45, 45 50, 35 45 C30 40, 25 32, 25 25 Z"/>
+    <path d="M175 25 C165 15, 150 20, 140 35 C145 45, 155 50, 165 45 C170 40, 175 32, 175 25 Z"/>
+    
+    <!-- Extensions latérales (griffes/flammes) -->
+    <path d="M15 70 C25 65, 35 70, 40 80 C35 90, 25 95, 15 90 C10 85, 10 75, 15 70 Z"/>
+    <path d="M185 70 C175 65, 165 70, 160 80 C165 90, 175 95, 185 90 C190 85, 190 75, 185 70 Z"/>
+    
+    <!-- Détails inférieurs -->
+    <path d="M45 130 C55 125, 65 130, 70 140 C65 150, 55 155, 45 150 C40 145, 40 135, 45 130 Z"/>
+    <path d="M155 130 C145 125, 135 130, 130 140 C135 150, 145 155, 155 150 C160 145, 160 135, 155 130 Z"/>
+  </g>
+  
+  <!-- Détails intérieurs blancs -->
+  <g class="logo-accent">
+    <!-- Cœur central -->
+    <ellipse cx="100" cy="100" rx="25" ry="35"/>
+    
+    <!-- Détails des cornes -->
+    <ellipse cx="45" cy="35" rx="8" ry="12"/>
+    <ellipse cx="155" cy="35" rx="8" ry="12"/>
+    
+    <!-- Détails latéraux -->
+    <ellipse cx="30" cy="80" rx="6" ry="10"/>
+    <ellipse cx="170" cy="80" rx="6" ry="10"/>
+    
+    <!-- Détails inférieurs -->
+    <ellipse cx="60" cy="140" rx="5" ry="8"/>
+    <ellipse cx="140" cy="140" rx="5" ry="8"/>
+  </g>
+  
+  <!-- Texte FST -->
+  <text x="100" y="220" text-anchor="middle" class="logo-text" font-size="42">FST</text>
+</svg>
+  </g>
+  
+  <!-- Texte FST -->
+  <text x="100" y="200" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="36" font-weight="900" fill="#6511EF">FST</text>
+</svg>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - SecuriNets FST</title>
+    <link rel="icon" type="image/png" href="css/images/logo.png">
+    <link rel="shortcut icon" type="image/png" href="css/images/logo.png">
+    <link rel="apple-touch-icon" href="css/images/logo.png">
+    <link rel="stylesheet" href="css/admin-style.css">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-portal-flex">
+            <div class="card1">
+                <div class="welcome-section">
+                    <div class="header-row">
+                        <img src="css/images/logo.png" alt="Logo" class="section-logo">
+                        <h2>Portail Admin</h2>
+                    </div>
+                    <div class="note-row">
+                        <p>Scannez le QR code du membre pour valider sa présence.</p>
+                    </div>
+                </div>
+                <div class="scan-modal">
+                    <h3>Scanner le QR Code</h3>
+                    <button id="activate-camera" class="btn btn-primary" style="margin-bottom:1rem;">Activer la caméra</button>
+                    <div id="qr-reader" style="width:100%;height:220px;background:#F8FAFC;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:1rem;">[Zone de scan QR]</div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="member-modal">
+                    <h3>Membres</h3>
+                    <div id="member-info" style="display:none; max-height:350px; overflow-y:auto;"></div>
+                    <div id="admin-success-message" class="success-message" style="display:none;"></div>
+                    <div id="admin-error-message" class="error-message" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    <!-- Librairie de scan QR à intégrer (ex: html5-qrcode) -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
