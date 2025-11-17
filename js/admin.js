@@ -24,17 +24,23 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Render members as a table
 	function renderMembersTable(members) {
 		if (!memberInfo) return;
-		// Sort by email
-		members.sort((a, b) => (a.qrcode || '').localeCompare(b.qrcode || ''));
+		// Sort by name if available, otherwise by qrcode
+		members.sort((a, b) => {
+			const nameA = (a.name || a.named || '').toString();
+			const nameB = (b.name || b.named || '').toString();
+			return nameA.localeCompare(nameB);
+		});
 		let html = '<table style="width:100%;border-collapse:collapse;">';
-		html += '<tr><th>QR Hash</th><th>Présent</th><th>Date de check-in</th></tr>';
+		html += '<tr><th>Name</th><th>Présent</th><th>Date de check-in</th></tr>';
 		members.forEach(m => {
-			const present = m.present;
-			const rowColor = present ? '#d1fae5' : '#fee2e2'; // green or red
+			const present = !!m.present;
+			const rowColor = present ? '#d1fae5' : '#fee2e2';
+			const displayName = m.name || m.named || '';
+			const displayCheckin = m.checkin_time || m.checkinTime || '';
 			html += `<tr style="background:${rowColor};">
-				<td>${m.qrcode}</td>
+				<td>${displayName}</td>
 				<td>${present ? 'Oui' : 'Non'}</td>
-				<td>${m.checkin_time ? new Date(m.checkin_time).toLocaleString('fr-FR') : ''}</td>
+				<td>${displayCheckin ? new Date(displayCheckin).toLocaleString('fr-FR') : ''}</td>
 			</tr>`;
 		});
 		html += '</table>';
@@ -114,7 +120,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			});
 			const data = await res.json();
 			if (res.ok) {
-				showScanResult(`Check-in réussi pour : ${data.qrcode}`);
+				// Prefer showing the member's name if provided by the server
+				const displayName = data.named || data.qrcode || 'membre';
+				showScanResult(`Check-in réussi pour : ${displayName}`);
 			} else {
 				showScanResult(data.error || 'Erreur lors du check-in.', true);
 			}
