@@ -25,8 +25,13 @@ app.get('/members', async (req, res) => {
 app.post('/checkin', async (req, res) => {
   const { qrcode } = req.body;
   try {
-    // Check if member exists
-    const memberRes = await pool.query('SELECT * FROM checkin WHERE qrcode = $1', [qrcode]);
+    console.log('[CHECKIN] received identifier:', qrcode);
+    // Try to find the member by qrcode first, then by email as a fallback
+    const memberRes = await pool.query(
+      'SELECT * FROM checkin WHERE qrcode = $1 OR email = $1',
+      [qrcode]
+    );
+    console.log('[CHECKIN] matched rows:', memberRes.rows.length);
     if (memberRes.rows.length === 0) {
       return res.status(404).json({ error: 'Member not found.' });
     }
@@ -37,7 +42,7 @@ app.post('/checkin', async (req, res) => {
     // Check in the member
     const result = await pool.query(
       `UPDATE checkin SET present = true, checkin_time = NOW()
-       WHERE qrcode = $1 AND present = false AND checkin_time IS NULL
+       WHERE (qrcode = $1 OR email = $1) AND present = false AND checkin_time IS NULL
        RETURNING *`, [qrcode]
     );
     if (result.rows.length === 0) {
