@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			const data = await res.json();
 			if (res.ok) {
 				// Prefer showing the member's name if provided by the server
-				const displayName = data.named || data.qrcode || 'membre';
+				const displayName = data.name || data.named || data.qrcode || 'membre';
 				showScanResult(`Check-in réussi pour : ${displayName}`);
 			} else {
 				showScanResult(data.error || 'Erreur lors du check-in.', true);
