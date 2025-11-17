@@ -37,8 +37,8 @@ npm install
 ```
 
 ### 3. Configure the database
-- Update the `connectionString` in `server/index.js` with your Neon PostgreSQL credentials.
-- The database should have a `checkin` table with columns: `mail`, `present` (boolean), and `checkin_time` (timestamp).
+- Update the `connectionString` in `server/index.js` with your Neon PostgreSQL credentials (or set `DATABASE_URL` in your environment).
+- The database should have a `checkin` table with columns: `qrcode`, `present` (boolean), and `checkin_time` (timestamp).
 
 ### 4. Start the backend server
 ```
@@ -54,14 +54,14 @@ node index.js
 
 ## How it works
 1. The admin scans a member's QR code using the camera.
-2. The app extracts the email from the QR code.
+2. The app extracts the QR hash (the `qrcode` value) from the QR code.
 3. The backend checks the database:
    - If the member exists and is not already present, it marks them as present and sets the check-in time.
    - If not, it returns an error message.
 
 ## API Endpoints
 - `GET /members` — List all members
-- `POST /checkin` — Check in a member (body: `{ mail: "email@example.com" }`)
+-- `POST /checkin` — Check in a member (body: `{ qrcode: "<hash>" }`)
 
 ## Dependencies
 - [Express](https://expressjs.com/)

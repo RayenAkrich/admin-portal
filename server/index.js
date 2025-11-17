@@ -23,10 +23,10 @@ app.get('/members', async (req, res) => {
 
 // Update member on check-in
 app.post('/checkin', async (req, res) => {
-  const { mail } = req.body;
+  const { qrcode } = req.body;
   try {
     // Check if member exists
-    const memberRes = await pool.query('SELECT * FROM checkin WHERE mail = $1', [mail]);
+    const memberRes = await pool.query('SELECT * FROM checkin WHERE qrcode = $1', [qrcode]);
     if (memberRes.rows.length === 0) {
       return res.status(404).json({ error: 'Member not found.' });
     }
@@ -37,8 +37,8 @@ app.post('/checkin', async (req, res) => {
     // Check in the member
     const result = await pool.query(
       `UPDATE checkin SET present = true, checkin_time = NOW()
-       WHERE mail = $1 AND present = false AND checkin_time IS NULL
-       RETURNING *`, [mail]
+       WHERE qrcode = $1 AND present = false AND checkin_time IS NULL
+       RETURNING *`, [qrcode]
     );
     if (result.rows.length === 0) {
       return res.status(400).json({ error: 'Check-in failed.' });

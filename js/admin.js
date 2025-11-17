@@ -25,14 +25,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	function renderMembersTable(members) {
 		if (!memberInfo) return;
 		// Sort by email
-		members.sort((a, b) => (a.mail || '').localeCompare(b.mail || ''));
+		members.sort((a, b) => (a.qrcode || '').localeCompare(b.qrcode || ''));
 		let html = '<table style="width:100%;border-collapse:collapse;">';
-		html += '<tr><th>Email</th><th>Présent</th><th>Date de check-in</th></tr>';
+		html += '<tr><th>QR Hash</th><th>Présent</th><th>Date de check-in</th></tr>';
 		members.forEach(m => {
 			const present = m.present;
 			const rowColor = present ? '#d1fae5' : '#fee2e2'; // green or red
 			html += `<tr style="background:${rowColor};">
-				<td>${m.mail}</td>
+				<td>${m.qrcode}</td>
 				<td>${present ? 'Oui' : 'Non'}</td>
 				<td>${m.checkin_time ? new Date(m.checkin_time).toLocaleString('fr-FR') : ''}</td>
 			</tr>`;
@@ -60,15 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
 					config,
 					async (decodedText, decodedResult) => {
 						// Try to parse as JSON and extract email if possible
-						let email = decodedText;
+						// Try to parse as JSON and extract qrcode if possible
+						let qrcode = decodedText;
 						try {
 							const parsed = JSON.parse(decodedText);
-							if (parsed.email) {
-								email = parsed.email;
+							if (parsed.qrcode) {
+								qrcode = parsed.qrcode;
 							}
 						} catch (e) {}
 						// Confirm before check-in
-						if (confirm(`Confirmer le check-in pour : ${email} ?`)) {
+						if (confirm(`Confirmer le check-in pour : ${qrcode} ?`)) {
 							await checkinMember(decodedText);
 						}
 						html5QrCode.stop();
@@ -94,26 +95,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Send POST request to check in member
 	async function checkinMember(scannedText) {
-		let email = scannedText;
-		// Try to parse as JSON and extract email if possible
+		let qrcode = scannedText;
+		// Try to parse as JSON and extract qrcode if possible
 		try {
 			const parsed = JSON.parse(scannedText);
-			if (parsed.email) {
-				email = parsed.email;
+			if (parsed.qrcode) {
+				qrcode = parsed.qrcode;
 			}
 		} catch (e) {
 			// Not JSON, use as is
 		}
-		console.log('[DEBUG] Email sent to backend:', email);
+		console.log('[DEBUG] QR code sent to backend:', qrcode);
 		try {
 			const res = await fetch('https://admin-portal-447e.onrender.com/checkin', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ mail: email })
+				body: JSON.stringify({ qrcode: qrcode })
 			});
 			const data = await res.json();
 			if (res.ok) {
-				showScanResult(`Check-in réussi pour : ${data.mail}`);
+				showScanResult(`Check-in réussi pour : ${data.qrcode}`);
 			} else {
 				showScanResult(data.error || 'Erreur lors du check-in.', true);
 			}
