@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
 					{ facingMode: "environment" },
 					config,
 					async (decodedText, decodedResult) => {
-						// Try to parse as JSON and extract email if possible
 						// Try to parse as JSON and extract qrcode if possible
 						let qrcode = decodedText;
 						try {
